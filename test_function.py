@@ -1,3 +1,4 @@
+#NOTE: this is in Python 2, not Python 3
 import csv
 
 test_list1 = []
