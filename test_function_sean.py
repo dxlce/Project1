@@ -1,5 +1,4 @@
 #NOTE: this is in Python 2, not Python 3
-#added more stuff to sean's original program (I should rename this) - Laura
 import csv
 
 test_list1 = []
