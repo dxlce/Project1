@@ -1,13 +1,15 @@
 #NOTE: this is in Python 2, not Python 3
-"""This is the (very) inefficient version of the calorie calculation code. I still need to make it more efficient and include 
-age + gender - Laura"""
+#still need to work on efficiency and such - Laura
 import csv
 
 test_list1 = []
 
+age = (raw_input("Please enter your age: "))
+gender = (raw_input("Please enter your gender: "))
+filename = (raw_input("Please enter the filename: "))
 
 class HeartRate:
-    def __init__(self, filename='filename.csv'):
+    def __init__(self, age, gender, filename):
       weight = 0
       ### Sean:
       ### csv.reader() is a  better solution, but I'll do this quickly
@@ -18,15 +20,15 @@ class HeartRate:
       dataValues = dataFromFile[1].strip().split(',')
 
       polarPairs = {key:dataValues[i] for i,key in enumerate(dataKeys)}
-      print polarPairs
-      weight = int(polarPairs['Weight (kg)'])
-      print weight
+      weight = float((polarPairs['Weight (kg)']))
       
       
       print "Calories burned = ", polarPairs['Calories']
 
       heartrate = []
       self.heartrate = heartrate
+      self.age = age
+      self.gender = gender
       ### Sean:
       ### Now, get the heartrate list from the file.
       #Laura:
@@ -44,10 +46,10 @@ class HeartRate:
                   heartrate.append(row[2])
 
           heartrate = map(int, heartrate)
-          self.averageHeartRate(weight)
+          self.averageHeartRate(weight, age, gender)
           
 
-    def averageHeartRate(self, weight):
+    def averageHeartRate(self, weight, age, gender):
       ### returns a float to two decimals of the average heart rate during
       ### the effort
       ### how does is compare to the Polar calculated value
@@ -60,7 +62,7 @@ class HeartRate:
 
       average = float(sum1)/divide
       average = round(average, 2)
-      self.caloriesBurned(average, weight)
+      self.caloriesBurned(average, weight, age, gender)
 
     def maxHeartRate():
       ### returns a float to two decimals of the maximum heart rate during
@@ -75,22 +77,26 @@ class HeartRate:
       pass
 
 
-    def caloriesBurned(self, average, weight):
+    def caloriesBurned(self, average, weight, age, gender):
       ### returns the number of calories burned durring the effort
       ### here is a simple formula:
       ### Male: Calories/min = (-55.0969 + (0.6309 * Heart Rate) + (0.1988 * Weight) + (0.2017 * Age)) / 4.184
       ### Female: Calories/min = (-20.4022 + (0.4472 * Heart Rate) - (0.1263 * Weight) + (0.074 * Age)) / 4.184 
       ### how does is compare to the Polar calculated value
+      if (gender.lower() == 'male'):
+          print "I am male"
+          heartRate = 0.6309 * average
+          weightCal = 0.1988 * (weight)
+          caloriesBurned = (-55.0969 + heartRate + weightCal + (0.2017 * float(age)))
+          print caloriesBurned
+
+      elif (gender.lower() == 'female'):
+          print "I am female"
+          heartRate = 0.4472 * average
+          weightCal = 0.1263 * (weight)
+          caloriesBurned = (-20.4022 + heartRate - weightCal + (0.074 * float(age)))
+          print caloriesBurned
       
-      heartRate = 0.6309 * average
-      weightStuff = 0.1988 * weight
-      age = 16
-      caloriesBurned = (-55.0969 + heartRate + weightStuff + (0.2017 * age))
-      print caloriesBurned
           
-          
-
-
-
-test_list2 = HeartRate(filename='filename.csv')
+calorieCount = HeartRate(age, gender, filename)
 
