@@ -38,7 +38,6 @@ class HeartRate:
                   heartrate.append(row[2])
 
           heartrate = map(int, heartrate)
-          
 
     def averageHeartRate(self):
       ### returns a float to two decimals of the average heart rate during
@@ -54,17 +53,31 @@ class HeartRate:
       average = float(sum1)/divide
       average = round(average, 2)
 
-    def maxHeartRate():
+    def maxHeartRate(self):
       ### returns a float to two decimals of the maximum heart rate during
       ### the effort
       ### how does is compare to the Polar calculated value
-      pass
+      heartrate1 = map(int, self.heartrate)
+      maxHR = 0
 
-    def minHeartRate():
+      for i in range(len(heartrate1)):
+          if heartrate1[i] > maxHR:
+              maxHR = heartrate1[i]
+
+      return maxHR
+
+    def minHeartRate(self):
       ### returns a float to two decimals of the minimum heart rate during
       ### the effort
       ### how does is compare to the Polar calculated value
-      pass
+      heartrate1 = map(int, self.heartrate)
+      minHR = 999
+
+      for i in range(len(heartrate1)):
+          if heartrate1[i] < minHR:
+              minHR = heartrate1[i]
+
+      return minHR
 
 
     def caloriesBurned(gender='female'):
@@ -77,5 +90,7 @@ class HeartRate:
 
 
 
-test_list2 = HeartRate(filename='filename.csv')
+test_list2 = HeartRate(filename='RayHao_Speedwalking.csv')
 HeartRate.averageHeartRate(test_list2)
+print test_list2.maxHeartRate()
+print test_list2.minHeartRate()
