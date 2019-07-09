@@ -1,12 +1,14 @@
 #NOTE: this is in Python 2, not Python 3
-#made some changes to sean's code
+"""This is the (very) inefficient version of the calorie calculation code. I still need to make it more efficient and include 
+age + gender - Laura"""
 import csv
 
 test_list1 = []
+
+
 class HeartRate:
     def __init__(self, filename='filename.csv'):
-
-
+      weight = 0
       ### Sean:
       ### csv.reader() is a  better solution, but I'll do this quickly
       ### Feel free to fix / improve.
@@ -16,7 +18,11 @@ class HeartRate:
       dataValues = dataFromFile[1].strip().split(',')
 
       polarPairs = {key:dataValues[i] for i,key in enumerate(dataKeys)}
-
+      print polarPairs
+      weight = int(polarPairs['Weight (kg)'])
+      print weight
+      
+      
       print "Calories burned = ", polarPairs['Calories']
 
       heartrate = []
@@ -38,8 +44,10 @@ class HeartRate:
                   heartrate.append(row[2])
 
           heartrate = map(int, heartrate)
+          self.averageHeartRate(weight)
+          
 
-    def averageHeartRate(self):
+    def averageHeartRate(self, weight):
       ### returns a float to two decimals of the average heart rate during
       ### the effort
       ### how does is compare to the Polar calculated value
@@ -52,45 +60,37 @@ class HeartRate:
 
       average = float(sum1)/divide
       average = round(average, 2)
+      self.caloriesBurned(average, weight)
 
-    def maxHeartRate(self):
+    def maxHeartRate():
       ### returns a float to two decimals of the maximum heart rate during
       ### the effort
       ### how does is compare to the Polar calculated value
-      heartrate1 = map(int, self.heartrate)
-      maxHR = 0
+      pass
 
-      for i in range(len(heartrate1)):
-          if heartrate1[i] > maxHR:
-              maxHR = heartrate1[i]
-
-      return maxHR
-
-    def minHeartRate(self):
+    def minHeartRate():
       ### returns a float to two decimals of the minimum heart rate during
       ### the effort
       ### how does is compare to the Polar calculated value
-      heartrate1 = map(int, self.heartrate)
-      minHR = 999
-
-      for i in range(len(heartrate1)):
-          if heartrate1[i] < minHR:
-              minHR = heartrate1[i]
-
-      return minHR
+      pass
 
 
-    def caloriesBurned(gender='female'):
+    def caloriesBurned(self, average, weight):
       ### returns the number of calories burned durring the effort
       ### here is a simple formula:
       ### Male: Calories/min = (-55.0969 + (0.6309 * Heart Rate) + (0.1988 * Weight) + (0.2017 * Age)) / 4.184
       ### Female: Calories/min = (-20.4022 + (0.4472 * Heart Rate) - (0.1263 * Weight) + (0.074 * Age)) / 4.184 
       ### how does is compare to the Polar calculated value
-      pass
+      
+      heartRate = 0.6309 * average
+      weightStuff = 0.1988 * weight
+      age = 16
+      caloriesBurned = (-55.0969 + heartRate + weightStuff + (0.2017 * age))
+      print caloriesBurned
+          
+          
 
 
 
-test_list2 = HeartRate(filename='RayHao_Speedwalking.csv')
-HeartRate.averageHeartRate(test_list2)
-print test_list2.maxHeartRate()
-print test_list2.minHeartRate()
+test_list2 = HeartRate(filename='filename.csv')
+
