@@ -1,12 +1,46 @@
 #NOTE: this is in Python 2, not Python 3
-#still need to work on efficiency and such - Laura
+#modified code so it can verify if the file exists or not
 import csv
+import os.path
+from os import path
 
 test_list1 = []
 
-age = (raw_input("Please enter your age: "))
-gender = (raw_input("Please enter your gender: "))
-filename = (raw_input("Please enter the filename: "))
+
+
+
+def checkFile(filename):
+    while (True):
+        if (filename == 'q'):
+            print "Ok bye"
+            exit()
+    
+        if (".csv" in filename):
+            if (path.exists(filename)):
+                return filename
+                break
+            else:
+                filename = (raw_input(file_input_prompt))
+        elif ("." in filename):
+            if (filename.endswith(".")):
+                filename = filename + "csv"
+                if (path.exists(filename)):
+                    return filename
+                    break
+                else:
+                    filename =(raw_input(file_input_prompt))
+                
+            else:
+                filename = (raw_input("File type is invalid, please re-enter file name: "))
+            
+        else:
+            filename = filename + ".csv"
+            if (path.exists(filename)):
+                return filename
+                break
+            else:
+                filename =(raw_input(file_input_prompt))
+    
 
 class HeartRate:
     def __init__(self, age, gender, filename):
@@ -19,11 +53,11 @@ class HeartRate:
       dataKeys = dataFromFile[0].strip().split(',')
       dataValues = dataFromFile[1].strip().split(',')
 
-      polarPairs = {key:dataValues[i] for i,key in enumerate(dataKeys)}
+      polarPairs = {key:dataValues[i] for i, key in enumerate(dataKeys)}
       weight = float((polarPairs['Weight (kg)']))
       
       
-      print "Calories burned = ", polarPairs['Calories']
+      print "Calories burned (polar) = ", polarPairs['Calories']
 
       heartrate = []
       self.heartrate = heartrate
@@ -32,7 +66,8 @@ class HeartRate:
       ### Sean:
       ### Now, get the heartrate list from the file.
       #Laura:
-      #I have to modify this later so it isn't hard coding :c
+      #I have to modify this later so it isn't hard coding
+      #get heartrate into a list 
       with open(filename, 'r') as file:
           count = 0
           csv_read = csv.reader((open(filename)))
@@ -84,19 +119,24 @@ class HeartRate:
       ### Female: Calories/min = (-20.4022 + (0.4472 * Heart Rate) - (0.1263 * Weight) + (0.074 * Age)) / 4.184 
       ### how does is compare to the Polar calculated value
       if (gender.lower() == 'male'):
-          print "I am male"
           heartRate = 0.6309 * average
           weightCal = 0.1988 * (weight)
           caloriesBurned = (-55.0969 + heartRate + weightCal + (0.2017 * float(age)))
-          print caloriesBurned
+          print "Formula: " + str(caloriesBurned)
 
       elif (gender.lower() == 'female'):
-          print "I am female"
           heartRate = 0.4472 * average
           weightCal = 0.1263 * (weight)
           caloriesBurned = (-20.4022 + heartRate - weightCal + (0.074 * float(age)))
-          print caloriesBurned
-      
+          print "Formula: " + str(caloriesBurned)
+
+#asks for user age, gender, and filename (they need to put in the filetype (ie. (name).csv))
+age = (raw_input("Please enter your age: "))
+gender = (raw_input("Please enter your gender: "))
+filename = (raw_input("Please enter the filename: "))
+file_input_prompt = "File does not exist, please re-enter file name. Type 'q' to exit: "
+
+filename = checkFile(filename)
           
 calorieCount = HeartRate(age, gender, filename)
 
