@@ -121,7 +121,7 @@ class HeartRate:
           heartRate = 0.6309 * average
           weightCal = 0.1988 * (weight)
           caloriesBurned = (-55.0969 + heartRate + weightCal + (0.2017 * float(age)))
-          print "Formula: " + str(int(caloriesBurned),1)
+          print "Formula: " + str(round(caloriesBurned, 1))
           print "Polar: " + str(polarCalories)
           
           with open(storeInfo + ".csv", 'ab') as csvfile:
@@ -133,7 +133,7 @@ class HeartRate:
           heartRate = 0.4472 * average
           weightCal = 0.1263 * (weight)
           caloriesBurned = (-20.4022 + heartRate - weightCal + (0.074 * float(age)))
-          print "Formula: " + str(int(caloriesBurned),1)
+          print "Formula: " + str(round(caloriesBurned, 1))
           print "Polar: " + str(polarCalories)
 
           with open(storeInfo + ".csv", 'ab') as csvfile:
