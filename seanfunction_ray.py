@@ -138,8 +138,7 @@ class HeartRate:
 
           with open(storeInfo + ".csv", 'ab') as csvfile:
               filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
-              filewriter.writerow(['polarCals', 'ourCals'])
-
+              filewriter.writerow([str(polarCalories), str(caloriesBurned)])
 
 #asks for user age, gender, and filename (they need to put in the filetype (ie. (name).csv))
 age = 0
