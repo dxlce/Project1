@@ -113,9 +113,8 @@ class HeartRate:
       self.caloriesBurned(average, polarCalories, weight, age, gender)
 
     def maxHeartRate():
-      ### returns a float to two decimals of the maximum heart rate during
-      ### the effort
-      ### how does is compare to the Polar calculated value
+      ###returns the maximum heart rate 
+      ### call with initialized object
       heartrate1 = map(int, self.heartrate)
       maxHR = 0
 
@@ -126,9 +125,8 @@ class HeartRate:
       return maxHR
 
     def minHeartRate():
-      ### returns a float to two decimals of the minimum heart rate during
-      ### the effort
-      ### how does is compare to the Polar calculated value
+      ### returns the minimum heart rate 
+      ### call with initialized object
       heartrate1 = map(int, self.heartrate)
       minHR = 999
 
@@ -137,7 +135,6 @@ class HeartRate:
               minHR = heartrate1[i]
 
       return minHR
-
 
     def caloriesBurned(self, average, polarCalories, weight, age, gender):
       ### returns the number of calories burned durring the effort
@@ -158,7 +155,7 @@ class HeartRate:
           writeFile1.update({str(polarCalories) : str(caloriesBurned)})
           print writeFile1
 
-          with open('calories.csv', 'wb') as csvfile:
+          with open('calories.csv', 'ab') as csvfile:
               filewriter = csv.writer(csvfile, delimiter=',',
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
               for i in range(len(writeFile1)):
