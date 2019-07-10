@@ -99,17 +99,30 @@ class HeartRate:
       average = round(average, 2)
       self.caloriesBurned(average, weight, age, gender)
 
-    def maxHeartRate():
-      ### returns a float to two decimals of the maximum heart rate during
-      ### the effort
-      ### how does is compare to the Polar calculated value
-      pass
+    def maxHeartRate(self):
+      ###returns the maximum heart rate 
+      ### call with initialized object
+      heartrate1 = map(int, self.heartrate)
+      maxHR = 0
+
+      for i in range(len(heartrate1)):
+          if heartrate1[i] > maxHR:
+              maxHR = heartrate1[i]
+
+      return maxHR
+
 
     def minHeartRate():
-      ### returns a float to two decimals of the minimum heart rate during
-      ### the effort
-      ### how does is compare to the Polar calculated value
-      pass
+      ### returns the minimum heart rate 
+      ### call with initialized object
+      heartrate1 = map(int, self.heartrate)
+      minHR = 999
+
+      for i in range(len(heartrate1)):
+          if heartrate1[i] < minHR:
+              minHR = heartrate1[i]
+
+      return minHR
 
 
     def caloriesBurned(self, average, weight, age, gender):
@@ -137,6 +150,4 @@ filename = (raw_input("Please enter the filename: "))
 file_input_prompt = "File does not exist, please re-enter file name. Type 'q' to exit: "
 
 filename = checkFile(filename)
-          
 calorieCount = HeartRate(age, gender, filename)
-
