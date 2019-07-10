@@ -116,7 +116,7 @@ class HeartRate:
       ### Male: Calories/min = (-55.0969 + (0.6309 * Heart Rate) + (0.1988 * Weight) + (0.2017 * Age)) / 4.184
       ### Female: Calories/min = (-20.4022 + (0.4472 * Heart Rate) - (0.1263 * Weight) + (0.074 * Age)) / 4.184 
       ### how does is compare to the Polar calculated value
-
+      printAgeGender = 0
       if (gender.lower() == 'male'):
           heartRate = 0.6309 * average
           weightCal = 0.1988 * (weight)
@@ -126,7 +126,11 @@ class HeartRate:
           
           with open(storeInfo + ".csv", 'ab') as csvfile:
               filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
-              filewriter.writerow([str(polarCalories), str(caloriesBurned)])
+              if (printAgeGender == 0):
+                  filewriter.writerow([str(polarCalories), str(round(caloriesBurned, 1)),'' ,age, gender])
+                  printAgeGender = 1
+              else:
+                  filewriter.writerow([str(polarCalories), str(round(caloriesBurned, 1))])
 
 
       elif (gender.lower() == 'female'):
@@ -138,7 +142,11 @@ class HeartRate:
 
           with open(storeInfo + ".csv", 'ab') as csvfile:
               filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
-              filewriter.writerow([str(polarCalories), str(caloriesBurned)])
+              if (printAgeGender == 0):
+                  filewriter.writerow([str(polarCalories), str(round(caloriesBurned, 1)),'' ,age, gender])
+                  printAgeGender = 1
+              else:
+                  filewriter.writerow([str(polarCalories), str(round(caloriesBurned, 1))])
 
 #asks for user age, gender, and filename (they need to put in the filetype (ie. (name).csv))
 age = 0
@@ -152,7 +160,7 @@ storeInfo = raw_input("Name the file you want to write the calories info inside 
 if not path.exists(storeInfo):
     with open(storeInfo + ".csv", 'wb') as csvfile:
         filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
-        filewriter.writerow(['polarCals', 'ourCals'])
+        filewriter.writerow(['polarCals', 'formCals', '', 'age', 'gender'])
 
 while (proceed == "True" or proceed == "Yes"):
     ###while (age <= 0):
