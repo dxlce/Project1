@@ -96,15 +96,31 @@ class HeartRate:
       ### returns a float to two decimals of the average heart rate during
       ### the effort
       ### how does is compare to the Polar calculated value
+      max_heart_rate = 220 - int(age)
+      min_HR = max_heart_rate * 0.64
+      max_HR = max_heart_rate * 0.89
+
+
       heartrate1 = map(int, self.heartrate)
-      divide = len(heartrate1)
+      print heartrate1
+      valid_heartrate = []
+
       sum1 = 0
+
+      for i in range(len(heartrate1)):
+          if (heartrate1[i] >= min_HR) and (heartrate1[i] <= max_HR): 
+              valid_heartrate.append(heartrate1[i])
+
+      print valid_heartrate
+
+      divide = len(valid_heartrate)
       
       for i in range(divide):
-          sum1 += heartrate1[i]
-
+          sum1 += valid_heartrate[i]
+      
       average = float(sum1)/divide
       average = round(average, 2)
+      print average
       self.caloriesBurned(average, polarCalories, weight, age, gender)
 
     def maxHeartRate():
