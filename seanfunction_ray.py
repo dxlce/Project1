@@ -97,18 +97,29 @@ class HeartRate:
       average = round(average, 2)
       self.caloriesBurned(average, polarCalories, weight, age, gender)
 
-    def maxHeartRate():
-      ### returns a float to two decimals of the maximum heart rate during
-      ### the effort
-      ### how does is compare to the Polar calculated value
-      pass
+    def maxHeartRate(self):
+      ###returns the maximum heart rate 
+      ### call with initialized object
+      heartrate1 = map(int, self.heartrate)
+      maxHR = 0
+
+      for i in range(len(heartrate1)):
+          if heartrate1[i] > maxHR:
+              maxHR = heartrate1[i]
+
+      return maxHR
 
     def minHeartRate():
-      ### returns a float to two decimals of the minimum heart rate during
-      ### the effort
-      ### how does is compare to the Polar calculated value
-      pass
+      ### returns the minimum heart rate 
+      ### call with initialized object
+      heartrate1 = map(int, self.heartrate)
+      minHR = 999
 
+      for i in range(len(heartrate1)):
+          if heartrate1[i] < minHR:
+              minHR = heartrate1[i]
+
+      return minHR
 
     def caloriesBurned(self, average, polarCalories, weight, age, gender):
       ### returns the number of calories burned durring the effort
