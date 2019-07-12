@@ -40,7 +40,7 @@ def checkFile(filename):
     
 
 class HeartRate:
-    def __init__(self, age, gender, filename):
+    def __init__(self, workingHR, age, gender, filename):
       weight = 0
       ### Sean:
       ### csv.reader() is a  better solution, but I'll do this quickly
@@ -79,23 +79,34 @@ class HeartRate:
                   heartrate.append(row[2])
 
           heartrate = map(int, heartrate)
-          self.averageHeartRate(polarCalories, weight, age, gender)
+          self.averageHeartRate(workingHR, polarCalories, weight, age, gender)
           
 
-    def averageHeartRate(self, polarCalories, weight, age, gender):
+    def averageHeartRate(self, workingHR, polarCalories, weight, age, gender):
       ### returns a float to two decimals of the average heart rate during
       ### the effort
       ### how does is compare to the Polar calculated value
       heartrate1 = map(int, self.heartrate)
-      divide = len(heartrate1)
-      sum1 = 0
-      
-      for i in range(divide):
-          sum1 += heartrate1[i]
+      validRange = []
 
-      average = float(sum1)/divide
-      average = round(average, 2)
-      self.caloriesBurned(average, polarCalories, weight, age, gender)
+      sum1 = 0
+
+      for i in range(len(heartrate1)):
+          if (heartrate1[i] >= workingHR): 
+              validRange.append(heartrate1[i])
+
+      divide = len(validRange)
+
+      if (divide == 0):
+          print "The heartrates given are too low"
+      else:
+          for i in range(divide):
+              sum1 += validRange[i]
+      
+          average = float(sum1)/divide
+          average = round(average, 2)
+          self.caloriesBurned(average, polarCalories, weight, age, gender)
+          pass
 
     def maxHeartRate(self):
       ###returns the maximum heart rate 
@@ -163,6 +174,7 @@ class HeartRate:
 age = 0
 gender = ""
 proceed = "True"
+workingHR = 0
 file_input_prompt = "File does not exist, please re-enter file name. Type 'q' to exit: "
 
           
@@ -176,12 +188,13 @@ if not path.exists(storeInfo):
 while (proceed == "True" or proceed == "Yes"):
     ###while (age <= 0):
     age = (raw_input("Please enter your age: "))
+    workingHR = int(0.64 * (220 - int(age)))
     ###while (gender.lower() != 'male' and gender.lower != 'female'):
     gender = (raw_input("Please enter your gender: "))
     
     filename = (raw_input("Please enter the filename: "))
     filename = checkFile(filename)
     
-    calorieCount = HeartRate(age, gender, filename)
+    calorieCount = HeartRate(workingHR, age, gender, filename)
 
     proceed = raw_input("Enter \"Yes\" to keep filling in the new csv file: ")
