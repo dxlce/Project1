@@ -4,7 +4,7 @@ test_list1 = []
 
 from os import path
 import csv
-
+from operator import mul
 
 def checkFile(filename):
     while (True):
@@ -53,8 +53,15 @@ class HeartRate:
 
       polarPairs = {key:dataValues[i] for i, key in enumerate(dataKeys)}
       weight = float((polarPairs['Weight (kg)']))
+
       
       polarCalories = float(polarPairs['Calories'])
+
+      my_time = polarPairs['Duration']
+      factors = (60, 1, 1/60)
+      duration = sum(i*j for i, j in zip(map(int, my_time.split(':')), factors))
+      self.duration = duration
+      ###print str(duration)
       ###print "Calories burned (polar) = ", polarPairs['Calories']
 
       heartrate = []
@@ -79,10 +86,10 @@ class HeartRate:
                   heartrate.append(row[2])
 
           heartrate = map(int, heartrate)
-          self.averageHeartRate(workingHR, polarCalories, weight, age, gender)
+          self.averageHeartRate(workingHR, polarCalories, weight, age, gender, duration)
           
 
-    def averageHeartRate(self, workingHR, polarCalories, weight, age, gender):
+    def averageHeartRate(self, workingHR, polarCalories, weight, age, gender, duration):
       ### returns a float to two decimals of the average heart rate during
       ### the effort
       ### how does is compare to the Polar calculated value
@@ -105,7 +112,7 @@ class HeartRate:
       
           average = float(sum1)/divide
           average = round(average, 2)
-          self.caloriesBurned(average, polarCalories, weight, age, gender)
+          self.caloriesBurned(average, polarCalories, weight, age, gender, duration)
           pass
 
     def maxHeartRate(self):
@@ -132,7 +139,7 @@ class HeartRate:
 
       return minHR
 
-    def caloriesBurned(self, average, polarCalories, weight, age, gender):
+    def caloriesBurned(self, average, polarCalories, weight, age, gender, duration):
       ### returns the number of calories burned durring the effort
       ### here is a simple formula:
       ### Male: Calories/min = (-55.0969 + (0.6309 * Heart Rate) + (0.1988 * Weight) + (0.2017 * Age)) / 4.184
@@ -143,32 +150,32 @@ class HeartRate:
           heartRate = 0.6309 * average
           weightCal = 0.1988 * (weight)
           caloriesBurned = (-55.0969 + heartRate + weightCal + (0.2017 * float(age)))
-          print "Formula: " + str(round(caloriesBurned, 1))
+          print "Formula: " + str(round(caloriesBurned*duration, 1))
           print "Polar: " + str(polarCalories)
           
           with open(storeInfo + ".csv", 'ab') as csvfile:
               filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
               if (printAgeGender == 0):
-                  filewriter.writerow([str(polarCalories), str(round(caloriesBurned, 1)),'' ,age, gender])
+                  filewriter.writerow([str(polarCalories), str(round(caloriesBurned*duration, 1)),'' ,age, gender])
                   printAgeGender = 1
               else:
-                  filewriter.writerow([str(polarCalories), str(round(caloriesBurned, 1))])
+                  filewriter.writerow([str(polarCalories), str(round(caloriesBurned*duration, 1))])
 
 
       elif (gender.lower() == 'female'):
           heartRate = 0.4472 * average
           weightCal = 0.1263 * (weight)
           caloriesBurned = (-20.4022 + heartRate - weightCal + (0.074 * float(age)))
-          print "Formula: " + str(round(caloriesBurned, 1))
+          print "Formula: " + str(round(caloriesBurned*duration, 1))
           print "Polar: " + str(polarCalories)
 
           with open(storeInfo + ".csv", 'ab') as csvfile:
               filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
               if (printAgeGender == 0):
-                  filewriter.writerow([str(polarCalories), str(round(caloriesBurned, 1)),'' ,age, gender])
+                  filewriter.writerow([str(polarCalories), str(round(caloriesBurned*duration, 1)),'' ,age, gender])
                   printAgeGender = 1
               else:
-                  filewriter.writerow([str(polarCalories), str(round(caloriesBurned, 1))])
+                  filewriter.writerow([str(polarCalories), str(round(caloriesBurned*duration, 1))])
 
 #asks for user age, gender, and filename (they need to put in the filetype (ie. (name).csv))
 age = 0
