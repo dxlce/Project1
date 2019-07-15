@@ -5,6 +5,8 @@ from os import path
 
 test_list1 = []
 
+#asks for user age, gender, and filename (they need to put in the filetype (ie. (name).csv))
+
 
 def checkFile(filename):
     while (True):
@@ -107,6 +109,7 @@ class HeartRate:
           
       average = float(sum1)/divide
       average = round(average, 2)
+      print average
 
       if ((average >= min_HR) and (average <= max_HR)):
           average = float(sum1)/divide
@@ -143,9 +146,13 @@ class HeartRate:
           caloriesBurned = (-55.0969 + heartRate + weightCal + (0.2017 * float(age)))
           print "Formula: " + str(caloriesBurned)
 
-          with open('calories.csv', 'ab') as csvfile:
-              filewriter = csv.writer(csvfile, delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
-              filewriter.writerow([str(polarCalories), str(caloriesBurned)])
+          if (path.exists("calories.txt")):
+              f = open("calories.txt", "a+")
+              f.write(str(average) + " " + str(polarCalories))
+
+          else:
+              f = open("calories.txt", "w+")
+              f.write(str(average) + " " + str(polarCalories))
 
       elif (gender.lower() == 'female'):
           heartRate = 0.4472 * average
@@ -153,9 +160,17 @@ class HeartRate:
           caloriesBurned = (-20.4022 + heartRate - weightCal + (0.074 * float(age)))
           print "Formula: " + str(caloriesBurned)
 
-          with open('calories.csv', 'ab') as csvfile:
-              filewriter = csv.writer(csvfile, delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
-              filewriter.writerow([str(polarCalories), str(caloriesBurned)])
+          if(path.exists("calories.txt")):
+              f = open("calories.txt", "a+")
+              f.write(str(average) + " " + str(polarCalories))
+              file.write("\n")
+              
+
+          else:
+              f = open("calories.txt", "w+")
+              f.write(str(average) + " " + str(polarCalories))
+              file.write("\n")
+              
 
 age = (raw_input("Please enter your age: "))
 gender = (raw_input("Please enter your gender: "))
