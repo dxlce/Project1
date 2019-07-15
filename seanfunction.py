@@ -1,5 +1,7 @@
 #NOTE: this is in Python 2, not Python 3
 #modified code so it can verify if the file exists or not
+import csv
+
 test_list1 = []
 
 
@@ -169,11 +171,14 @@ class HeartRate:
                       filewriter.writerow(key)
 
 #asks for user age, gender, and filename (they need to put in the filetype (ie. (name).csv))
-age = (raw_input("Please enter your age: "))
-gender = (raw_input("Please enter your gender: "))
-filename = (raw_input("Please enter the filename: "))
-file_input_prompt = "File does not exist, please re-enter file name. Type 'q' to exit: "
+#age = (raw_input("Please enter your age: "))
+#gender = (raw_input("Please enter your gender: "))
+#filename = (raw_input("Please enter the filename: "))
+#file_input_prompt = "File does not exist, please re-enter file name. Type 'q' to exit: "
 
-filename = checkFile(filename)
+age = 16
+gender = 'male'
+filename = 'Data/RayHao_Cycling.csv'
+#filename = checkFile(filename)
           
 calorieCount = HeartRate(age, gender, filename)
