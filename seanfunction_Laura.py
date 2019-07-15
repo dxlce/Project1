@@ -5,8 +5,6 @@ from os import path
 
 test_list1 = []
 
-#asks for user age, gender, and filename (they need to put in the filetype (ie. (name).csv))
-
 
 def checkFile(filename):
     while (True):
@@ -100,28 +98,24 @@ class HeartRate:
       min_HR = max_heart_rate * 0.64
       max_HR = max_heart_rate * 0.89
 
-
       heartrate1 = map(int, self.heartrate)
-      print heartrate1
-      valid_heartrate = []
-
+      divide = len(heartrate1)
       sum1 = 0
-
-      for i in range(len(heartrate1)):
-          if (heartrate1[i] >= min_HR) and (heartrate1[i] <= max_HR): 
-              valid_heartrate.append(heartrate1[i])
-
-      print valid_heartrate
-
-      divide = len(valid_heartrate)
       
       for i in range(divide):
-          sum1 += valid_heartrate[i]
-      
+          sum1 += heartrate1[i]
+          
       average = float(sum1)/divide
       average = round(average, 2)
-      print average
-      self.caloriesBurned(average, polarCalories, weight, age, gender)
+
+      if ((average >= min_HR) and (average <= max_HR)):
+          average = float(sum1)/divide
+          average = round(average, 2)
+          print average
+          self.caloriesBurned(average, polarCalories, weight, age, gender)
+          
+      else:
+          print ("Invalid range of heartrate.")
 
     def maxHeartRate():
       ### returns a float to two decimals of the maximum heart rate during
