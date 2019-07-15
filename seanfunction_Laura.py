@@ -1,10 +1,9 @@
 #NOTE: this is in Python 2, not Python 3
-#modified code so it can verify if the file exists or not
 import csv
+import os.path
+from os import path
 
 test_list1 = []
-
-
 
 
 def checkFile(filename):
@@ -47,21 +46,13 @@ class HeartRate:
       ### csv.reader() is a  better solution, but I'll do this quickly
       ### Feel free to fix / improve.
 
-      """if (path.exists('calories.csv')):
-          with open('calories.csv', 'r') as file:
-              reader = csv.reader(open('calories.csv'))
-              row1 = next(reader)
-              if (row1 == ['Polar Calories', 'Formula Calories']):
-                  pass
-              else:
-                  with open('calories.csv', 'wb') as csvfile:
-                      filewriter = csv.writer(csvfile, delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
-                      filewriter.writerow(['Polar Calories', 'Formula Calories'])
+      if (path.exists('calories.csv')):
+          pass
 
       else:
           with open('calories.csv', 'wb')as csvfile:
               filewriter = csv.writer(csvfile, delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
-              filewriter.writerow(['Polar Calories', 'Formula Calories'])"""
+              filewriter.writerow(['Polar Calories', 'Formula Calories'])
               
       dataFromFile = open(filename).readlines()
 
@@ -103,40 +94,41 @@ class HeartRate:
       ### returns a float to two decimals of the average heart rate during
       ### the effort
       ### how does is compare to the Polar calculated value
+      max_heart_rate = 220 - int(age)
+      min_HR = max_heart_rate * 0.64
+      max_HR = max_heart_rate * 0.89
+
       heartrate1 = map(int, self.heartrate)
       divide = len(heartrate1)
       sum1 = 0
       
       for i in range(divide):
           sum1 += heartrate1[i]
-
+          
       average = float(sum1)/divide
       average = round(average, 2)
-      self.caloriesBurned(average, polarCalories, weight, age, gender)
+
+      if ((average >= min_HR) and (average <= max_HR)):
+          average = float(sum1)/divide
+          average = round(average, 2)
+          print average
+          self.caloriesBurned(average, polarCalories, weight, age, gender)
+          
+      else:
+          print ("Invalid range of heartrate.")
 
     def maxHeartRate():
-      ###returns the maximum heart rate 
-      ### call with initialized object
-      heartrate1 = map(int, self.heartrate)
-      maxHR = 0
-
-      for i in range(len(heartrate1)):
-          if heartrate1[i] > maxHR:
-              maxHR = heartrate1[i]
-
-      return maxHR
+      ### returns a float to two decimals of the maximum heart rate during
+      ### the effort
+      ### how does is compare to the Polar calculated value
+      pass
 
     def minHeartRate():
-      ### returns the minimum heart rate 
-      ### call with initialized object
-      heartrate1 = map(int, self.heartrate)
-      minHR = 999
+      ### returns a float to two decimals of the minimum heart rate during
+      ### the effort
+      ### how does is compare to the Polar calculated value
+      pass
 
-      for i in range(len(heartrate1)):
-          if heartrate1[i] < minHR:
-              minHR = heartrate1[i]
-
-      return minHR
 
     def caloriesBurned(self, average, polarCalories, weight, age, gender):
       ### returns the number of calories burned durring the effort
@@ -145,25 +137,15 @@ class HeartRate:
       ### Female: Calories/min = (-20.4022 + (0.4472 * Heart Rate) - (0.1263 * Weight) + (0.074 * Age)) / 4.184 
       ### how does is compare to the Polar calculated value
 
-      writeFile1 = {
-          'Polar Calories' : 'Formula Calories'
-          }
       if (gender.lower() == 'male'):
           heartRate = 0.6309 * average
           weightCal = 0.1988 * (weight)
           caloriesBurned = (-55.0969 + heartRate + weightCal + (0.2017 * float(age)))
           print "Formula: " + str(caloriesBurned)
 
-          writeFile1.update({str(polarCalories) : str(caloriesBurned)})
-          print writeFile1
-
           with open('calories.csv', 'ab') as csvfile:
-              filewriter = csv.writer(csvfile, delimiter=',',
-                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
-              for i in range(len(writeFile1)):
-                  for key in writeFile1:
-                      filewriter.writerow(key)
-                  
+              filewriter = csv.writer(csvfile, delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
+              filewriter.writerow([str(polarCalories), str(caloriesBurned)])
 
       elif (gender.lower() == 'female'):
           heartRate = 0.4472 * average
@@ -171,25 +153,15 @@ class HeartRate:
           caloriesBurned = (-20.4022 + heartRate - weightCal + (0.074 * float(age)))
           print "Formula: " + str(caloriesBurned)
 
-          writeFile1.update({str(polarCalories) : str(caloriesBurned)})
-          print writeFile1
-
           with open('calories.csv', 'ab') as csvfile:
-              filewriter = csv.writer(csvfile, delimiter=',',
-                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
-              for i in range(len(writeFile1)):
-                  for key in writeFile1:
-                      filewriter.writerow(key)
+              filewriter = csv.writer(csvfile, delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
+              filewriter.writerow([str(polarCalories), str(caloriesBurned)])
 
-#asks for user age, gender, and filename (they need to put in the filetype (ie. (name).csv))
-#age = (raw_input("Please enter your age: "))
-#gender = (raw_input("Please enter your gender: "))
-#filename = (raw_input("Please enter the filename: "))
-#file_input_prompt = "File does not exist, please re-enter file name. Type 'q' to exit: "
+age = (raw_input("Please enter your age: "))
+gender = (raw_input("Please enter your gender: "))
+filename = (raw_input("Please enter the filename: "))
+file_input_prompt = "File does not exist, please re-enter file name. Type 'q' to exit: "
 
-age = 16
-gender = 'male'
-filename = 'Data/RayHao_Cycling.csv'
-#filename = checkFile(filename)
+filename = checkFile(filename)
           
 calorieCount = HeartRate(age, gender, filename)
