@@ -149,7 +149,7 @@ class HeartRate:
       if (gender.lower() == 'male'):
           heartRate = 0.6309 * average
           weightCal = 0.1988 * (weight)
-          caloriesBurned = (-55.0969 + heartRate + weightCal + (0.2017 * float(age)))/4.184
+          caloriesBurned = (-55.0969 + heartRate + weightCal + (0.2017 * float(age)))/5.56472
           print "Formula: " + str(round(caloriesBurned*duration, 1))
           print "Polar: " + str(polarCalories)
           
