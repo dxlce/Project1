@@ -2,6 +2,7 @@
 import csv
 import os.path
 from os import path
+import math
 
 test_list1 = []
 
@@ -69,14 +70,6 @@ class HeartRate:
       
       my_time = polarPairs['Duration']
 
-      """
-      factors = (60, 1, 1/60)
-      print zip(map(int, my_time.split(':')), factors))
-      duration = sum(i*j for i, j in zip(map(int, my_time.split(':')), factors))
-      self.duration = duration
-      print duration"""
-
-
       (h, m, s) = my_time.split(':')
       result = int(h) * 3600 + int(m) * 60 + int(s)
       result2 = float(result)/60
@@ -116,24 +109,101 @@ class HeartRate:
       max_HR = max_heart_rate * 0.89
 
       heartrate1 = map(int, self.heartrate)
+      
       divide = len(heartrate1)
       sum1 = 0
-      
-      for i in range(divide):
-          sum1 += heartrate1[i]
-          
-      average = float(sum1)/divide
-      average = round(average, 2)
-      print average
+      list1 = []
+      list2 = []
+      avg = 0
+      sum2 = 0
+      calorieCount = 0
+      count2 = ((divide/60)) + 1
 
-      if ((average >= min_HR) and (average <= max_HR)):
-          average = float(sum1)/divide
-          average = round(average, 2)
-          print average
-          self.caloriesBurned(average, polarCalories, weight, age, gender, result2)
-          
+      for j in range(count2):
+          if (j == 0):
+              for count in range(61):
+                  list1.append(heartrate1[count])
+              length1 = len(list1)
+              for k in range(length1):
+                  sum2 += list1[k]
+              if (sum2/length1 < min_HR):
+                  if (gender.lower() == 'female'):
+                      calorieCount += (((0.26875*weight) + 35.625)/60)
+                      print calorieCount
+                  elif (gender.lower() == 'male'):
+                      calorieCount += (((0.275*weight) + 35)/60)
+                      print calorieCount
+                  
+              else:
+                  for l in range(length1):
+                      list2.append(list1[l])
+
+              del list1[0:(length1)]
+              sum2 = 0
+                  
+          elif ((j+1) == count2):
+              for count in range(divide):
+                  if count < ((j*60)+1):
+                      continue
+                  else:
+                      list1.append(heartrate1[count])
+              length1 = len(list1)
+              for k in range(length1):
+                  sum2 += list1[k]
+              print sum2
+              if (sum2/length1 < min_HR):
+                  if (gender.lower() == 'female'):
+                      calorieCount += (((0.26875*weight) + 35.625)/60)
+                      print calorieCount
+                  elif (gender.lower() == 'male'):
+                      calorieCount += (((0.275*weight) + 35)/60)
+                      print calorieCount
+              else:
+                  for l in range(length1):
+                      list2.append(list1[l])
+
+              del list1[0:(length1)]
+              sum2 = 0
+                      
+          else:
+              count = j * 60 + 1
+              for count in range(((j+1)*60) + 1):
+                  if count < ((j*60)+1):
+                      continue
+                  else:
+                      list1.append(heartrate1[count])
+              length1 = len(list1)
+              for k in range(length1):
+                  sum2 += list1[k]
+              if (sum2/length1 < min_HR):
+                  if (gender.lower() == 'female'):
+                      calorieCount += (((0.26875*weight) + 35.625)/60)
+                      print calorieCount
+                  elif (gender.lower() == 'male'):
+                      calorieCount += (((0.275*weight) + 35)/60)
+                      print calorieCount
+              else:
+                  for l in range(length1):
+                      list2.append(list1[l])
+
+              del list1[0:(length1)]
+              sum2 = 0
+      if (len(list2) == 0):
+          print "Calories burned (formula): " + str(calorieCount)
+
       else:
-          print ("Invalid range of heartrate.")
+          divide2 = len(list2)
+          for i in range(divide2):
+              sum1 += list2[i]
+          
+          average = float(sum1)/divide2
+          average = round(average, 2)
+          calorieCount += average
+
+          caloriesBurned(self, calorieCount, polarCalories, weight, age, gender, result2)
+          
+      
+
 
     def maxHeartRate():
       ### returns a float to two decimals of the maximum heart rate during
