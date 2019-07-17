@@ -38,7 +38,6 @@ def checkFile(filename):
             else:
                 filename =(raw_input(file_input_prompt))
     
-
 class HeartRate:
     def __init__(self, workingHR, age, gender, filename):
       weight = 0
@@ -200,7 +199,6 @@ print dataFiles
 age = (raw_input("Please enter your age: "))
 workingHR = int(0.64 * (220 - int(age)))
 gender = (raw_input("Please enter your gender: "))
-
 
 """
 while (proceed == "True" or proceed == "Yes"):
