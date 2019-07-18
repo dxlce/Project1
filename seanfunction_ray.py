@@ -1,7 +1,7 @@
 #NOTE: this is in Python 2, not Python 3
-#modified code so it can verify if the file exists or not
 test_list1 = []
 
+import os
 from os import path
 import csv
 from operator import mul
@@ -38,7 +38,6 @@ def checkFile(filename):
             else:
                 filename =(raw_input(file_input_prompt))
     
-
 class HeartRate:
     def __init__(self, workingHR, age, gender, filename):
       weight = 0
@@ -180,7 +179,7 @@ class HeartRate:
 #asks for user age, gender, and filename (they need to put in the filetype (ie. (name).csv))
 age = 0
 gender = ""
-proceed = "True"
+###proceed = "True"
 workingHR = 0
 file_input_prompt = "File does not exist, please re-enter file name. Type 'q' to exit: "
 
@@ -192,16 +191,29 @@ if not path.exists(storeInfo):
         filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
         filewriter.writerow(['polarCals', 'formCals', '', 'age', 'gender'])
 
+dataFiles = next(os.walk('.'))[2]
+del dataFiles[0]
+del dataFiles[0]
+print dataFiles
+
+age = (raw_input("Please enter your age: "))
+workingHR = int(0.64 * (220 - int(age)))
+gender = (raw_input("Please enter your gender: "))
+
+"""
 while (proceed == "True" or proceed == "Yes"):
     ###while (age <= 0):
     age = (raw_input("Please enter your age: "))
     workingHR = int(0.64 * (220 - int(age)))
     ###while (gender.lower() != 'male' and gender.lower != 'female'):
     gender = (raw_input("Please enter your gender: "))
-    
+
     filename = (raw_input("Please enter the filename: "))
     filename = checkFile(filename)
-    
+"""    
+
+for i in range(0, len(dataFiles)-1):
+    filename = dataFiles[i]
     calorieCount = HeartRate(workingHR, age, gender, filename)
 
-    proceed = raw_input("Enter \"Yes\" to keep filling in the new csv file: ")
+    ### proceed = raw_input("Enter \"Yes\" to keep filling in the new csv file: ")
