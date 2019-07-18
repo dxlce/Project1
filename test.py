@@ -44,25 +44,6 @@ class HeartRate:
 
       dataFromFile = open(filename).readlines()
       
-
-      """        
-      dataFromFile = open(filename).readlines()
-
-      dataKeys = dataFromFile[0].strip().split(',')
-      dataValues = dataFromFile[1].strip().split(',')
-
-      polarPairs = {key:dataValues[i] for i, key in enumerate(dataKeys)}
-      weight = float((polarPairs['Weight (kg)']))
-
-      
-      polarCalories = float(polarPairs['Calories'])
-
-      my_time = polarPairs['Duration']
-      factors = (60, 1, 1/60)
-      duration = sum(i*j for i, j in zip(map(int, my_time.split(':')), factors))
-      self.duration = duration
-      """
-
       heartrate = []
       self.heartrate = heartrate
       self.age = age
@@ -109,30 +90,7 @@ class HeartRate:
           self.caloriesBurned(average, weight, age, gender, duration)
           pass
 
-    def maxHeartRate(self):
-      ###returns the maximum heart rate 
-      ### call with initialized object
-      heartrate1 = map(int, self.heartrate)
-      maxHR = 0
-
-      for i in range(len(heartrate1)):
-          if heartrate1[i] > maxHR:
-              maxHR = heartrate1[i]
-
-      return maxHR
-
-    def minHeartRate():
-      ### returns the minimum heart rate 
-      ### call with initialized object
-      heartrate1 = map(int, self.heartrate)
-      minHR = 999
-
-      for i in range(len(heartrate1)):
-          if heartrate1[i] < minHR:
-              minHR = heartrate1[i]
-
-      return minHR
-
+  
     def caloriesBurned(self, average, weight, age, gender, duration):
       ### returns the number of calories burned durring the effort
       ### here is a simple formula:
@@ -157,22 +115,6 @@ class HeartRate:
               else:
                   filewriter.writerow([str(polarCalories), counter])
 
-
-      elif (gender.lower() == 'female'):
-          heartRate = 0.4472 * average
-          weightCal = 0.1263 * (weight)
-          caloriesBurned = (-20.4022 + heartRate - weightCal + (0.074 * float(age)))/4.184
-          print "Formula: " + str(round(caloriesBurned*duration, 1))
-          print "Polar: " + str(polarCalories)
-
-          with open(storeInfo + ".csv", 'ab') as csvfile:
-              filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
-              if (printAgeGender == 0):
-                  filewriter.writerow([str(polarCalories), str(round(caloriesBurned*duration, 1)),'' ,age, gender])
-                  printAgeGender = 1
-              else:
-                  filewriter.writerow([str(polarCalories), str(round(caloriesBurned*duration, 1))])
-
 #asks for user age, gender, and filename (they need to put in the filetype (ie. (name).csv))
 age = 0
 gender = ""
@@ -195,18 +137,6 @@ del dataFiles[0]
 age = (raw_input("Please enter your age: "))
 workingHR = int(0.64 * (80 - int(age)))
 gender = (raw_input("Please enter your gender: "))
-
-"""
-while (proceed == "True" or proceed == "Yes"):
-    ###while (age <= 0):
-    age = (raw_input("Please enter your age: "))
-    workingHR = int(0.64 * (220 - int(age)))
-    ###while (gender.lower() != 'male' and gender.lower != 'female'):
-    gender = (raw_input("Please enter your gender: "))
-
-    filename = (raw_input("Please enter the filename: "))
-    filename = checkFile(filename)
-"""    
 
 for i in range(0, len(dataFiles)-1):
     filename = dataFiles[i]
