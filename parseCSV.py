@@ -7,11 +7,13 @@ class HeartRate:
 
         f = open(filename)
         csv_f = csv.reader(f)
+        next(csv_f)
         heartrate = []
         counter = 0
 
         for row in csv_f:
             heartrate.append(row[1])
+            
 
         print str(len(heartrate))
 
@@ -22,12 +24,11 @@ class HeartRate:
                 counter += 1
                 with open("hour" + str(i) + ".csv", 'ab') as csvfile:
                     filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
-                    currentHR = heartrate[counter]
-                    filewriter.writerow(currentHR)
+                    filewriter.writerow([heartrate[counter]])
           
 """
       self.heartrate = []
       print self.heartrate
 """
 
-test_list2 = HeartRate(filename='alexHR.csv')
+test_list2 = HeartRate(filename='alexHR1sec.csv')
