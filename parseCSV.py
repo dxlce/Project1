@@ -15,11 +15,11 @@ class HeartRate:
 
         print str(len(heartrate))
 
-        for i in range(1, int(len(heartrarte)/3600)+1):
-                for ele in range(0, 3600):
-                    with open("hour" + str(i) + ".csv", 'wb') as csvfile:
-                        filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
-                        filewriter.writerow(heartrate[ele*i]
+        for i in range(0, int(len(heartrate)/3600)+1):
+            for ele in range(0, 3600):
+                with open("hour" + str(i) + ".csv", 'wb') as csvfile:
+                    filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
+                    filewriter.writerow(heartrate[ele*i]
           
 """
       self.heartrate = []
