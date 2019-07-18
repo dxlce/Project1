@@ -1,4 +1,11 @@
 #NOTE: this is in Python 2, not Python 3
+
+"""
+
+CODE CHANGED TO ONLY WORK FOR THE NEW FILES CREATED PER HOUR FROM ALEX'S DATA
+
+"""
+
 test_list1 = []
 
 import os
@@ -61,10 +68,10 @@ class HeartRate:
                   heartrate.append(row[0])
 
           heartrate = map(int, heartrate)
-          self.averageHeartRate(workingHR, weight, age, gender, duration)
+          self.averageHeartRate(workingHR, weight, age, gender)
           
 
-    def averageHeartRate(self, workingHR, weight, age, gender, duration):
+    def averageHeartRate(self, workingHR, weight, age, gender):
       ### returns a float to two decimals of the average heart rate during
       ### the effort
       ### how does is compare to the Polar calculated value
@@ -87,11 +94,11 @@ class HeartRate:
       
           average = float(sum1)/divide
           average = round(average, 2)
-          self.caloriesBurned(average, weight, age, gender, duration)
+          self.caloriesBurned(average, weight, age, gender)
           pass
 
   
-    def caloriesBurned(self, average, weight, age, gender, duration):
+    def caloriesBurned(self, average, weight, age, gender):
       ### returns the number of calories burned durring the effort
       ### here is a simple formula:
       ### Male: Calories/min = (-55.0969 + (0.6309 * Heart Rate) + (0.1988 * Weight) + (0.2017 * Age)) / 4.184
@@ -103,17 +110,16 @@ class HeartRate:
           heartRate = 0.6309 * average
           weightCal = 0.1988 * (weight)
           caloriesBurned = (-55.0969 + heartRate + weightCal + (0.2017 * float(age)))/5.56472
-          print "Formula: " + str(round(caloriesBurned*duration, 1))
-          print "Polar: " + str(polarCalories)
+          print "Formula: " + str(round(caloriesBurned*60, 1))
           
           with open(storeInfo + ".csv", 'ab') as csvfile:
               filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
               if (printAgeGender == 0):
                   counter += 1
-                  filewriter.writerow([str(polarCalories), counter])
+                  filewriter.writerow([str(round(caloriesBurned*60, 1)), counter])
                   printAgeGender = 1
               else:
-                  filewriter.writerow([str(polarCalories), counter])
+                  filewriter.writerow([str(round(caloriesBurned*60, 1)), counter])
 
 #asks for user age, gender, and filename (they need to put in the filetype (ie. (name).csv))
 age = 0
@@ -133,6 +139,7 @@ if not path.exists(storeInfo):
 dataFiles = next(os.walk('.'))[2]
 del dataFiles[0]
 del dataFiles[0]
+print dataFiles
 
 age = (raw_input("Please enter your age: "))
 workingHR = int(0.64 * (80 - int(age)))
