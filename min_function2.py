@@ -21,7 +21,7 @@ class HeartRate:
         dt2 = 0
         list1 = []
         days = 0
-        calorieList = []
+        hrList = []
 
         for row in csv_f:
             hrTime.append(row[0])
@@ -55,9 +55,9 @@ class HeartRate:
 
         for m in range(hourNum):
             filename = "minute" + str(m) + ".csv"
-            self.averageHeartRate(calorieList, age, gender, weight, filename, m)
+            self.averageHeartRate(hrList, age, gender, weight, filename, m)
 
-    def averageHeartRate(self, calorieList, age, gender, weight, filename, m):
+    def averageHeartRate(self, hrList, age, gender, weight, filename, m):
         sum1 = 0
         length_csv_list = []
         average = 0
@@ -75,14 +75,14 @@ class HeartRate:
             sum1+=int(length_csv_list[i])
 
         average = float(sum1)/length_csv
-        calorieList.append(average)
+        hrList.append(average)
 
         sum1 = 0
         del length_csv_list[0:length_csv]
 
-        self.caloriesBurned(calorieList, age, gender, weight, m, length_csv)
+        self.caloriesBurned(hrList, age, gender, weight, m, length_csv)
 
-    def caloriesBurned(self, calorieList, age, gender, weight, m, length_csv):
+    def caloriesBurned(self, hrList, age, gender, weight, m, length_csv):
         caloriesBurnedList = []
         hours = []
         length_csv2 = []
@@ -91,7 +91,7 @@ class HeartRate:
 
         min_HR = max_HR * 0.64
         for i in range(len(calorieList)):
-            if (calorieList[i] < min_HR):
+            if (hrList[i] < min_HR):
                 caloriesBurned = 83
                 caloriesBurnedList.append(caloriesBurned)
                 hours.append(m)
