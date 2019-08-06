@@ -44,9 +44,9 @@ class HeartRate:
             
             if (int(dt2.timestamp() - dt1.timestamp()) <= 3600):
                 continue
-                """with open("hour" + str(hourNum) + ".csv", 'a', newline = "") as csvfile:
+                with open("hour" + str(hourNum) + ".csv", 'a', newline = "") as csvfile:
                     filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
-                    filewriter.writerow([timeValue[t2]])"""
+                    filewriter.writerow([timeValue[t2]])
                                         
             else:
                 counter = t
