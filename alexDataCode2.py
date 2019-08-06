@@ -41,9 +41,7 @@ class HeartRate:
 
             dt1 = datetime.datetime.strptime(t1,'%Y-%m-%dT%H:%M:%SZ')
             dt2 = datetime.datetime.strptime(t2,'%Y-%m-%dT%H:%M:%SZ')
-
             
-
             if (int(dt2.timestamp() - dt1.timestamp()) <= 3600):
                 continue
                 """with open("hour" + str(hourNum) + ".csv", 'a', newline = "") as csvfile:
@@ -111,13 +109,7 @@ class HeartRate:
 
         del calorieList[0:len(calorieList)]
             
-                
-        
-             
 age = (input("Please enter your age: "))
 gender = (input("Please enter your gender: "))
 weight = (input("Please enter your weight: "))
-test_list2 = HeartRate(age, gender, weight, filename ='AlexHR1sec.csv')
-
-
-
+test_list2 = HeartRate(age, gender, weight, filename ='alexData.csv')
