@@ -1,12 +1,10 @@
-#ray: still needs debugging - still writing calculations in text instead of csv files
-
 """
 put this code in a folder with the original alexHR1Sec data file and the files with data broken down into intervals of continuous data
 example of what the folder should look like:
 
 files in folder:
 
-alexHR1Sec.csv
+AlexHR1sec.csv
 extrapolateData.py (this code)
 hour0
 hour1
@@ -36,6 +34,7 @@ class HeartRate:
         del dataFiles[0]
         del dataFiles[0]
         print(str(dataFiles))
+    
 
         for i in range(0, len(dataFiles) - 1):
 
@@ -59,8 +58,8 @@ class HeartRate:
 
             for m in range(0, int(dt2.timestamp() - dt1.timestamp())):
                 print(str(round(int(file1Value) + float(slope)*int(m))))
-                with open('extrapolate_' + str(i) + '_' + str(i+1), 'w', newline = "") as csvfile:
+                with open('extrapolate' + '_' + str(i) + '_' + str(i+1) + '.csv', 'a', newline = '') as csvfile:
                     filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
-                    filewriter.writerow([str(int(int(file1Value) + float(slope)*int(m)))])
+                    filewriter.writerow([str(round(int(file1Value) + float(slope)*int(m)))])
 
-test_list2 = HeartRate(filename ='alexData.csv')
+test_list2 = HeartRate(filename ='AlexHR1sec.csv')
