@@ -1,4 +1,20 @@
-#still needs debugging - still writing calculations in text files not csv
+#ray: still needs debugging - still writing calculations in text instead of csv files
+
+"""
+put this code in a folder with the original alexHR1Sec data file and the files with data broken down into intervals of continuous data
+example of what the folder should look like:
+
+files in folder:
+
+alexHR1Sec.csv
+extrapolateData.py (this code)
+hour0
+hour1
+hour2
+hour3
+...
+hour24823
+"""
 
 import datetime
 from time import time
@@ -39,11 +55,12 @@ class HeartRate:
 
             #assuming time is plotted on x-axis and hr on y-axis
 
-            slope = int((int(file2Value) - int(file1Value))/ dt2.timestamp()- dt1.timestamp())
+            slope = float((int(file2Value) - int(file1Value)) / (dt2.timestamp()- dt1.timestamp()))
 
             for m in range(0, int(dt2.timestamp() - dt1.timestamp())):
-                with open('extrapolate_' + str(i) + '_' + str(i+1), 'a', newline = "") as csvfile:
+                print(str(round(int(file1Value) + float(slope)*int(m))))
+                with open('extrapolate_' + str(i) + '_' + str(i+1), 'w', newline = "") as csvfile:
                     filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
-                    filewriter.writerow([str(int(file1Value) + int(slope)*int(m))])
+                    filewriter.writerow([str(int(int(file1Value) + float(slope)*int(m)))])
 
 test_list2 = HeartRate(filename ='alexData.csv')
