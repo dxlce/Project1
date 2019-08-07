@@ -1,4 +1,4 @@
-#ray: still needs to be debugged 
+#ray: still needs debugging - still writing calculations in text files not csv
 
 import datetime
 from time import time
@@ -27,6 +27,7 @@ class HeartRate:
                 for row in (list(csv.reader(f1))):
                     file1Date = row[0]
                     file1Value = row[1]
+                    #the times should be formatted like '2018-11-04T11:19:40Z'
 
             with open('hour' + str(i+1) + '.csv', 'r') as f2:
                 for row in (reversed(list(csv.reader(f2)))):
@@ -38,13 +39,11 @@ class HeartRate:
 
             #assuming time is plotted on x-axis and hr on y-axis
 
-            slope = int((int(file2Value) - int(file1Value))/ dt2.timestamp()-dt1.timestamp())
-            intercept = int(dt2.timestamp()/slope/int(file2Value))
-                    
+            slope = int((int(file2Value) - int(file1Value))/ dt2.timestamp()- dt1.timestamp())
+
             with open('extrapolate_' + str(i) + '_' + str(i+1), 'w') as csvfile:
                 filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
                 for m in range(0, int(dt2.timestamp() - dt1.timestamp())):
-                    filewriter.writerow([int(slope)*int(m) + intercept])
+                    filewriter.writerow([int(file1Value) + int(slope)*int(m)])
 
-            
 test_list2 = HeartRate(filename ='alexData.csv')
