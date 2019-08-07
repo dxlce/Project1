@@ -42,7 +42,7 @@ class HeartRate:
             slope = int((int(file2Value) - int(file1Value))/ dt2.timestamp()- dt1.timestamp())
 
             for m in range(0, int(dt2.timestamp() - dt1.timestamp())):
-                with open('extrapolate_' + str(i) + '_' + str(i+1), 'w', newline = "") as csvfile:
+                with open('extrapolate_' + str(i) + '_' + str(i+1), 'a', newline = "") as csvfile:
                     filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
                     filewriter.writerow([str(int(file1Value) + int(slope)*int(m))])
 
