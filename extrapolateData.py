@@ -1,4 +1,4 @@
-#ray: still needs debugging - still writing calculations in text files not csv
+#still needs debugging - still writing calculations in text files not csv
 
 import datetime
 from time import time
@@ -33,7 +33,7 @@ class HeartRate:
                 for row in (reversed(list(csv.reader(f2)))):
                     file2Date = row[0]
                     file2Value = row[1]
-                    
+   
             dt1 = datetime.datetime.strptime(file1Date,'%Y-%m-%dT%H:%M:%SZ')
             dt2 = datetime.datetime.strptime(file2Date,'%Y-%m-%dT%H:%M:%SZ')
 
@@ -41,9 +41,9 @@ class HeartRate:
 
             slope = int((int(file2Value) - int(file1Value))/ dt2.timestamp()- dt1.timestamp())
 
-            with open('extrapolate_' + str(i) + '_' + str(i+1), 'w') as csvfile:
-                filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
-                for m in range(0, int(dt2.timestamp() - dt1.timestamp())):
-                    filewriter.writerow([int(file1Value) + int(slope)*int(m)])
+            for m in range(0, int(dt2.timestamp() - dt1.timestamp())):
+                with open('extrapolate_' + str(i) + '_' + str(i+1), 'w', newline = "") as csvfile:
+                    filewriter = csv.writer(csvfile, delimiter=',', quotechar="|", quoting=csv.QUOTE_MINIMAL)
+                    filewriter.writerow([str(int(file1Value) + int(slope)*int(m))])
 
 test_list2 = HeartRate(filename ='alexData.csv')
