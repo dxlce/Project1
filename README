@@ -1,0 +1,4 @@
+(use finalAlexHRCode) 
+The code's function is to parse the heartrates from "AlexHR1sec" into an hourly basis and calculate the calories based off the average
+heartrate (New CSV files will be created for each hour and the amount of calories burned). The only thing needed to run this code is age, weight, and gender. 
+NOTE: This only works with the file called "AlexHR1sec". 
